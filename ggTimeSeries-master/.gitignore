@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+..Rcheck
+^.*\.Rproj$
+^.*\.RData$
+^.*\.Rhistory$
+^.*\.tar.gz$
+^\.Rproj\.user$
+^.*\.Rproj.user
+^.*\.git
