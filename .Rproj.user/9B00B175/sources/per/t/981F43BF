@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1555472106760.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1872600786",
+    "id" : "981F43BF",
+    "lastKnownWriteTime" : 1555555450,
+    "last_content_update" : 1555555450905,
+    "path" : "E:/r_projects/cluster_analyze/bank_loc.R",
+    "project_path" : "bank_loc.R",
+    "properties" : {
+        "cursorPosition" : "14,0",
+        "scrollLine" : "1",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
