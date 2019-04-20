@@ -33,9 +33,9 @@ Taipei_convert <- function(city){
 
 merged_data = rbind(data_mct, data_loc)
 
-merged_data[,2] <- apply(merged_data[,2],1,FUN=Taipei_convert)
+#merged_data[,2] <- apply(merged_data[,2],1,FUN=Taipei_convert)
 
-Taipei <- merged_data[grep("Taipei", merged_data$地區), ]
+Taipei <- merged_data[grep("台北市", merged_data$地區), ]
 N_Taipei <- merged_data[grep("新北市", merged_data$地區), ]
 Taoyuan <- merged_data[grep("桃園市", merged_data$地區), ]
 Taichung <- merged_data[grep("台中市", merged_data$地區), ]
@@ -68,34 +68,40 @@ dtData = data.frame(
   Time = 1:61,
   Signal =
     c(
-      as.numeric(as.character(unlist(Taipei[1:61,4]))),
-      as.numeric(as.character(unlist(N_Taipei[1:61,4]))),
-      as.numeric(as.character(unlist(Taoyuan[1:61,4]))),
-      as.numeric(as.character(unlist(Taichung[1:61,4]))),
-      as.numeric(as.character(unlist(Tainan[1:61,4]))),
-      as.numeric(as.character(unlist(Kaohsiung[1:61,4])))
+      as.numeric(as.character(unlist(Taipei[1:61,3:86]))),
+      as.numeric(as.character(unlist(N_Taipei[1:61,3:86]))),
+      as.numeric(as.character(unlist(Taoyuan[1:61,3:86]))),
+      as.numeric(as.character(unlist(Taichung[1:61,3:86]))),
+      as.numeric(as.character(unlist(Tainan[1:61,3:86]))),
+      as.numeric(as.character(unlist(Kaohsiung[1:61,3:86])))
       
     ),
   
-  VariableLabel = c(rep('臺北市', 61),
+  VariableLabel = c(rep('台北市', 61),
                     rep('新北市', 61), rep('桃園市', 61),
                     rep('台中市', 61), rep('台南市', 61),
                     rep('高雄市', 61))
 )
 
+dtData <- cbind(dtData, merged_data[1:61,3:86])
 
 shinyServer (
   function (input,output,session){
     
     output$employee <- renderUI({
       selectInput("Employee", "Please Select An Employee Number:",
-                  choices = c('臺北市','新北市', '桃園市', '台中市', 
+                  choices = c('台北市','新北市', '桃園市', '台中市', 
                               '台南市', '高雄市'))
     })
     
     output$linetype <- renderUI({
-      selectInput("linetype", "Please Select An Employee Number:",
-                  choices = c('1','2', '3'))
+      selectInput("Linetype", "Please Select An Employee Number:",
+                  choices = c('食品餐飲類博士', '2', '3'))
+    })
+    
+    output$type <- renderUI({
+      selectInput("Type", "Please Select An Employee Number:",
+                  choices = c('[筆數]', '[金額，新台幣]'))
     })
     
     output$symbol <- renderUI({
@@ -110,7 +116,7 @@ shinyServer (
       
         
         seData  <- dtData[dtData$VariableLabel == input$Employee, 2]
-        Et  <- ts(seData, start=1,end=length(dtData[dtData$VariableLabel == input$Employee,2]))
+        Et  <- ts(seData, start=1,end=61)
         plot(seData, col="blue", type="l")
         
    
@@ -121,11 +127,9 @@ shinyServer (
   })
 
 
+#View(dtData[dtData$VariableLabel == '台北市', ])
+ggg = toString(paste('食品餐飲類博士', '[筆數]', sep = ''))
+
+View(dtData[dtData$VariableLabel == '台北市',] $ '食品餐飲類博士[筆數]')
 
 
-
-
-
-
-
-#View(dtData[dtData$VariableLabel == '臺北市', 2])

@@ -5,7 +5,9 @@ shinyUI(
     sidebarPanel (
       uiOutput("employee"),
       uiOutput("symbol"),
-      uiOutput("linetype")
+      uiOutput("linetype"),
+      uiOutput("type")
+      
     ),
     mainPanel(plotOutput("myPlot"))
     
