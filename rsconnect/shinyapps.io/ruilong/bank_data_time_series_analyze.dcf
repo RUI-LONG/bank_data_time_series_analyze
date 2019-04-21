@@ -1,0 +1,10 @@
+name: bank_data_time_series_analyze
+title:
+username:
+account: ruilong
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 879742
+bundleId: 2026318
+url: https://ruilong.shinyapps.io/bank_data_time_series_analyze/
+when: 1555832113.4002

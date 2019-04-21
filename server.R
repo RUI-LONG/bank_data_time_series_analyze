@@ -9,13 +9,14 @@ library(ggplot2)
 library(TSstudio)
 library(data.table)
 library(vioplot)
+library(prettydoc)
 
 setwd('E:/bank_data_time_series_analyze')
 data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
 data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
 
-if(!exists("foo", mode="function")) source("E:/bank_data_time_series_analyze/ggTimeSeries-master/R/ggplot_waterfall.R")
-if(!exists("foo", mode="function")) source("E:/bank_data_time_series_analyze/ggTimeSeries-master/R/stat_steamgraph.R")
+#if(!exists("foo", mode="function")) source("ggplot_waterfall.R")
+#if(!exists("foo", mode="function")) source("stat_steamgraph.R")
 ### change "107年12月" to "107-12"
 
 AD_convert <- function(date){
@@ -61,7 +62,7 @@ shinyServer (
   function (input,output,session){
 
 	output$city <- renderUI({
-	  selectInput("City", "Please Select An Employee Number:",
+	  selectInput("City", "依照縣市分析:",
 				  choices = c('台北市','新北市', '桃園市', '台中市',
 							  '台南市', '高雄市',
 							  '基隆市', '新竹市', '新竹縣', '苗栗縣',
@@ -72,19 +73,19 @@ shinyServer (
 	})
 
 	output$linetype <- renderUI({
-	  selectInput("Linetype", "Please Select An Employee Number:",
+	  selectInput("Linetype", "依照學歷類別分析:",
 				  choices = c('食品餐飲類', '衣著飾品類',	'旅館住宿類',
 							  '交通類',	'文教康樂類',		'百貨類', '其他類'))
 	})
 
 	output$educate <- renderUI({
-	  selectInput("Educate", "Please Select An Employee Number:",
+	  selectInput("Educate", "依照學歷分析:",
 				  choices = c('博士.', '碩士.', '大學.', '專科.',
 							  '高中高職.', '其他.'))
 	})
 
 	output$type <- renderUI({
-	  selectInput("Type", "Please Select An Employee Number:",
+	  selectInput("Type", "依照消費指標分析:",
 				  choices = c('筆數.', '金額.新台幣.'))
 
 
@@ -130,4 +131,9 @@ shinyServer (
 #x1 <- dtData[dtData$'地區' == '新北市', ggg]
 
 #vioplot(x1,  names=c("4 cyl"), col="gold")
+
+
+# upload to server
+#library(rsconnect)
+#rsconnect::deployApp('E:/bank_data_time_series_analyze')
 
