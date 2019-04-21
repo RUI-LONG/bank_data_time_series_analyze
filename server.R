@@ -8,6 +8,7 @@ library(stringr)
 library(ggplot2)
 library(TSstudio)
 library(data.table)
+library(vioplot)
 
 setwd('E:/bank_data_time_series_analyze')
 data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
@@ -97,41 +98,22 @@ shinyServer (
 	output$myPlot <- renderPlot({
 
 	  cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
+	  new_cp = toString(paste(input$City, cp, sep = ''))
 	  seData  <- dtData[dtData$'地區' == input$City, cp]
 	  Et  <- ts(seData, start=1,end=61)
-	  plot(seData,  col="blue", type="l")
+	  plot(seData,  col="blue", type="l",  main="折線圖",
+	       xlab=new_cp)
 
 	  
 
 	})
 	
 	output$fullPlot <- renderPlot({
+	  
 	  cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
-	  
-	  dgData = data.frame(
-	    Time = 1:61,
-	    Signal =
-	      c(
-	        as.numeric(as.character(unlist(N_Taipei[dtData$'地區' == input$City, cp]))),
-	        as.numeric(as.character(unlist(Taoyuan[dtData$'地區' == input$City, cp]))),
-	        as.numeric(as.character(unlist(Taichung[dtData$'地區' == input$City, cp]))),
-	        as.numeric(as.character(unlist(Tainan[dtData$'地區' == input$City, cp]))),
-	        as.numeric(as.character(unlist(Kaohsiung[dtData$'地區' == input$City, cp])))
-	        
-	      ),
-	    
-	    VariableLabel = c('臺北市','新北市','桃園市','台中市', 
-	                      '台南市','高雄市')
-	  )
-	  # base plot
-	  p2 = ggplot(dgData, aes(x = Time, y = Signal,
-	                          group = VariableLabel, fill = VariableLabel)) +stat_steamgraph()
-	  
-	  
-	  # Area plot
-	  p2 +
-	    xlab('時間') +
-	    ylab('各縣市')
+	  new_cp = toString(paste(input$City, cp, sep = ''))
+	  boxplot(dtData[dtData$'地區' == input$City, cp],data=dtData, main="直方圖", 
+	          xlab=new_cp)
 	  
 	})
 
@@ -145,3 +127,7 @@ shinyServer (
 #View(dtData[dtData$'地區' == '新北市', ggg] )
 #print(names(dtData))
 #View(dtData)
+#x1 <- dtData[dtData$'地區' == '新北市', ggg]
+
+#vioplot(x1,  names=c("4 cyl"), col="gold")
+
