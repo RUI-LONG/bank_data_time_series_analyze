@@ -41,7 +41,6 @@ Taoyuan[,1] <- apply(Taoyuan[,1],1,FUN=AD_convert)
 Taichung[,1] <- apply(Taichung[,1],1,FUN=AD_convert)
 Tainan[,1] <- apply(Tainan[,1],1,FUN=AD_convert)
 Kaohsiung[,1] <- apply(Kaohsiung[,1],1,FUN=AD_convert)
-View(Taipei)
 
 
 # Convert title to null
@@ -77,7 +76,7 @@ p1 +
 
 
 # creating some data
-set.seed(10)
+
 dtData = data.frame(
    Time = 1:61,
    Signal =
@@ -103,9 +102,9 @@ p2 = ggplot(dtData, aes(x = Time, y = Signal,
 
 
 # Area plot
-#p1 +
-#   xlab('時間') +
-#   ylab('各縣市')
+p2 +
+   xlab('時間') +
+   ylab('各縣市')
 
 # df = data.frame(x = 1:61,
 #                y = Taipei[,3:4])
@@ -116,3 +115,5 @@ p2 = ggplot(dtData, aes(x = Time, y = Signal,
 #              alpha = 0.5, position = position_dodge(0.8)) +
 #    scale_color_manual(values = c("#00AFBB", "#E7B800")) +
 #    scale_fill_manual(values = c("#00AFBB", "#E7B800"))
+
+runApp("E:/bank_data_time_series_analyze")
