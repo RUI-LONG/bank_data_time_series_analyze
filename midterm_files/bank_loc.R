@@ -108,6 +108,7 @@ p2 +
 
 
 
-runApp("E:/bank_data_time_series_analyze")
+#runApp("E:/bank_data_time_series_analyze")
+
 #runGitHub( "bank_data_time_series_analyze", "RUI-LONG") 
 
