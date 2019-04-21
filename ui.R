@@ -6,11 +6,12 @@ shinyUI(
       uiOutput("city"),
       uiOutput("linetype"),
       uiOutput("type"),
-      uiOutput("educate"),
-      uiOutput("plottype")
+      uiOutput("educate")
+      
 
     ),
-    mainPanel(plotOutput("myPlot"))
+    mainPanel(plotOutput("myPlot"),plotOutput("fullPlot"))
+    
 
   )
 )

@@ -42,11 +42,19 @@ Taichung <- merged_data[grep("台中市", merged_data$地區), ]
 Tainan <- merged_data[grep("台南市", merged_data$地區), ]
 Kaohsiung <- merged_data[grep("高雄市", merged_data$地區), ]
 
+dtData = data.frame(merged_data)
+
+names(Taipei) <- names(dtData)
+names(N_Taipei) <- names(dtData)
+names(Taoyuan) <- names(dtData)
+names(Taichung) <- names(dtData)
+names(Tainan) <- names(dtData)
+names(Kaohsiung) <- names(dtData)
 
 options(scipen = 999)
 
 
-dtData = data.frame(merged_data)
+
 
 shinyServer (
   function (input,output,session){
@@ -81,29 +89,51 @@ shinyServer (
 
 
 	})
+	
+	
+	
 
-	output$plottype <- renderUI({
-	  selectInput("Plottype", "Please Select An Employee Number:",
-	              choices = c('line', 'trend'))
 
+	output$myPlot <- renderPlot({
 
+	  cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
+	  seData  <- dtData[dtData$'地區' == input$City, cp]
+	  Et  <- ts(seData, start=1,end=61)
+	  plot(seData,  col="blue", type="l")
+
+	  
 
 	})
-
-	if(input$Plottype == 'line'){
-  	output$myPlot <- renderPlot({
-
-  	  cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
-  	  seData  <- dtData[dtData$'地區' == input$City, cp]
-  	  Et  <- ts(seData, start=1,end=61)
-  	  plot(seData,  col="blue", type="l")
-
-
-  	})
-
-	}else{
-	  '做B'
-	}
+	
+	output$fullPlot <- renderPlot({
+	  cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
+	  
+	  dgData = data.frame(
+	    Time = 1:61,
+	    Signal =
+	      c(
+	        as.numeric(as.character(unlist(N_Taipei[dtData$'地區' == input$City, cp]))),
+	        as.numeric(as.character(unlist(Taoyuan[dtData$'地區' == input$City, cp]))),
+	        as.numeric(as.character(unlist(Taichung[dtData$'地區' == input$City, cp]))),
+	        as.numeric(as.character(unlist(Tainan[dtData$'地區' == input$City, cp]))),
+	        as.numeric(as.character(unlist(Kaohsiung[dtData$'地區' == input$City, cp])))
+	        
+	      ),
+	    
+	    VariableLabel = c('臺北市','新北市','桃園市','台中市', 
+	                      '台南市','高雄市')
+	  )
+	  # base plot
+	  p2 = ggplot(dgData, aes(x = Time, y = Signal,
+	                          group = VariableLabel, fill = VariableLabel)) +stat_steamgraph()
+	  
+	  
+	  # Area plot
+	  p2 +
+	    xlab('時間') +
+	    ylab('各縣市')
+	  
+	})
 
 
   })

@@ -106,14 +106,6 @@ p2 +
    xlab('時間') +
    ylab('各縣市')
 
-# df = data.frame(x = 1:61,
-#                y = Taipei[,3:4])
 
-
-# ggplot(Taipei, aes(x = 'x' , y = 'y' )) + 
-#    geom_area(aes(color = 'y.1', fill = 'y.2'), 
-#              alpha = 0.5, position = position_dodge(0.8)) +
-#    scale_color_manual(values = c("#00AFBB", "#E7B800")) +
-#    scale_fill_manual(values = c("#00AFBB", "#E7B800"))
 
 runApp("E:/bank_data_time_series_analyze")
