@@ -81,26 +81,26 @@ shinyServer (
 
 
 	})
-	
+
 	output$plottype <- renderUI({
 	  selectInput("Plottype", "Please Select An Employee Number:",
 	              choices = c('line', 'trend'))
-	  
-	  
-	  
+
+
+
 	})
 
 	if(input$Plottype == 'line'){
   	output$myPlot <- renderPlot({
-  
+
   	  cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
   	  seData  <- dtData[dtData$'地區' == input$City, cp]
   	  Et  <- ts(seData, start=1,end=61)
   	  plot(seData,  col="blue", type="l")
-  
-  
+
+
   	})
-  
+
 	}else{
 	  '做B'
 	}
