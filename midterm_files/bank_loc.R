@@ -9,16 +9,16 @@ library(ggplot2)
 library(TSstudio)
 library(data.table)
 
-setwd('E:/bank_data_time_series_analyze')
+#setwd('E:/bank_data_time_series_analyze')
 data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
 data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
 
 if(!exists("foo", mode="function")) source("ggplot_waterfall.R")
 if(!exists("foo", mode="function")) source("stat_steamgraph.R")
-### change "107å¹´12æœˆ" to "107-12"
+### change "107å¹?12???" to "107-12"
 
 AD_convert <- function(date){
-   date <- gsub("æœˆ","",gsub("å¹´","/",date))
+   date <- gsub("???","",gsub("å¹?","/",date))
    
    
    return(date)
@@ -28,12 +28,12 @@ AD_convert <- function(date){
 
 merged_data = rbind(data_mct, data_loc)
 
-Taipei <- merged_data[grep("å°åŒ—å¸‚", merged_data$åœ°å€), ]
-N_Taipei <- merged_data[grep("æ–°åŒ—å¸‚", merged_data$åœ°å€), ]
-Taoyuan <- merged_data[grep("æ¡ƒåœ’å¸‚", merged_data$åœ°å€), ]
-Taichung <- merged_data[grep("å°ä¸­å¸‚", merged_data$åœ°å€), ]
-Tainan <- merged_data[grep("å°å—å¸‚", merged_data$åœ°å€), ]
-Kaohsiung <- merged_data[grep("é«˜é›„å¸‚", merged_data$åœ°å€), ]
+Taipei <- merged_data[grep("?°??—å??", merged_data$?œ°??€), ]
+N_Taipei <- merged_data[grep("?–°??—å??", merged_data$?œ°??€), ]
+Taoyuan <- merged_data[grep("æ¡ƒå?’å??", merged_data$?œ°??€), ]
+Taichung <- merged_data[grep("?°ä¸­å??", merged_data$?œ°??€), ]
+Tainan <- merged_data[grep("?°??—å??", merged_data$?œ°??€), ]
+Kaohsiung <- merged_data[grep("é«˜é?„å??", merged_data$?œ°??€), ]
 
 Taipei[,1] <- apply(Taipei[,1],1,FUN=AD_convert)
 N_Taipei[,1] <- apply(N_Taipei[,1],1,FUN=AD_convert)
@@ -71,7 +71,7 @@ p1 = ggplot_waterfall(
 
 
 p1 +
-  xlab('æ™‚é–“') +
+  xlab('??‚é??') +
   ylab('ç­†æ•¸')
 
 
@@ -90,10 +90,10 @@ dtData = data.frame(
 
       ),
 
-   VariableLabel = c(rep('è‡ºåŒ—å¸‚', 61),
-                     rep('æ–°åŒ—å¸‚', 61), rep('æ¡ƒåœ’å¸‚', 61),
-                     rep('å°ä¸­å¸‚', 61), rep('å°å—å¸‚', 61),
-                     rep('é«˜é›„å¸‚', 61))
+   VariableLabel = c(rep('?‡º??—å??', 61),
+                     rep('?–°??—å??', 61), rep('æ¡ƒå?’å??', 61),
+                     rep('?°ä¸­å??', 61), rep('?°??—å??', 61),
+                     rep('é«˜é?„å??', 61))
 )
 
 # base plot
@@ -103,8 +103,8 @@ p2 = ggplot(dtData, aes(x = Time, y = Signal,
 
 # Area plot
 p2 +
-   xlab('æ™‚é–“') +
-   ylab('å„ç¸£å¸‚')
+   xlab('??‚é??') +
+   ylab('??„ç¸£å¸?')
 
 
 
