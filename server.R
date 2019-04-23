@@ -28,10 +28,12 @@ download.file(url = "https://drive.google.com/uc?authuser=0&id=1Pbfi7UkcadrXSLlr
 
 
 #setwd('E:/bank_data_time_series_analyze')
-data_loc <- read_excel(here("./data", "BANK_LOC_ALL_EL.xlsx"))
+#data_loc <- read_excel(here("data", "BANK_LOC_ALL_EL.xlsx"))
 
-data_mct <- read_excel(here("./data","BANK_MCT_ALL_EL.xlsx"))
+#data_mct <- read_excel(here("data","BANK_MCT_ALL_EL.xlsx"))
 
+data_loc <- read_excel("data/BANK_LOC_ALL_EL.xlsx")
+data_mct <- read_excel("data/BANK_MCT_ALL_EL.xlsx")
 #if(!exists("foo", mode="function")) source("ggplot_waterfall.R")
 #if(!exists("foo", mode="function")) source("stat_steamgraph.R")
 ### change "107年12月" to "107-12"
