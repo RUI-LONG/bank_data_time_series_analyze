@@ -10,26 +10,36 @@ library(TSstudio)
 library(data.table)
 library(vioplot)
 library(prettydoc)
-WD <- getwd()
+library(here)
 
-if (!is.null(WD)) setwd('C:\\bank_data_time_series_analyze')
 
-data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
-data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
+getwd()
+
+dir.create("data")
+
+download.file(url = "https://drive.google.com/uc?authuser=0&id=1HgPO2ly-rbIE4CDCoebAyBoyOK3GRxfE&export=download", destfile = "./data/BANK_LOC_ALL_EL.xlsx", mode="wb")
+download.file(url = "https://drive.google.com/uc?authuser=0&id=1Pbfi7UkcadrXSLlrWHiUOdACCMuydptr&export=download", destfile = "./data/BANK_MCT_ALL_EL.xlsx", mode="wb")
+  
+
+
+#setwd('E:/bank_data_time_series_analyze')
+data_loc <- read_excel(here("data", "BANK_LOC_ALL_EL.xlsx"))
+
+data_mct <- read_excel(here("data","BANK_MCT_ALL_EL.xlsx"))
 
 #if(!exists("foo", mode="function")) source("ggplot_waterfall.R")
 #if(!exists("foo", mode="function")) source("stat_steamgraph.R")
-### change "107¦~12¤ë" to "107-12"
+### change "107å¹´12æœˆ" to "107-12"
 
 AD_convert <- function(date){
-  date <- gsub("¤ë","",gsub("¦~","/",date))
+  date <- gsub("æœˆ","",gsub("å¹´","/",date))
 
 
   return(date)
 }
 
 Taipei_convert <- function(city){
-  city <- gsub("¥x¥_¥«","Taipei",city)
+  city <- gsub("å°åŒ—å¸‚","Taipei",city)
 
 
   return(city)
@@ -39,12 +49,12 @@ merged_data = rbind(data_mct, data_loc)
 
 #merged_data[,2] <- apply(merged_data[,2],1,FUN=Taipei_convert)
 
-Taipei <- merged_data[grep("¥x¥_¥«", merged_data$¦a°Ï), ]
-N_Taipei <- merged_data[grep("·s¥_¥«", merged_data$¦a°Ï), ]
-Taoyuan <- merged_data[grep("®ç¶é¥«", merged_data$¦a°Ï), ]
-Taichung <- merged_data[grep("¥x¤¤¥«", merged_data$¦a°Ï), ]
-Tainan <- merged_data[grep("¥x«n¥«", merged_data$¦a°Ï), ]
-Kaohsiung <- merged_data[grep("°ª¶¯¥«", merged_data$¦a°Ï), ]
+Taipei <- merged_data[grep("å°åŒ—å¸‚", merged_data$åœ°å€), ]
+N_Taipei <- merged_data[grep("æ–°åŒ—å¸‚", merged_data$åœ°å€), ]
+Taoyuan <- merged_data[grep("æ¡ƒåœ’å¸‚", merged_data$åœ°å€), ]
+Taichung <- merged_data[grep("å°ä¸­å¸‚", merged_data$åœ°å€), ]
+Tainan <- merged_data[grep("å°å—å¸‚", merged_data$åœ°å€), ]
+Kaohsiung <- merged_data[grep("é«˜é›„å¸‚", merged_data$åœ°å€), ]
 
 dtData = data.frame(merged_data)
 
@@ -58,84 +68,82 @@ names(Kaohsiung) <- names(dtData)
 options(scipen = 999)
 
 
-
-
 shinyServer (
   function (input,output,session){
 
-    output$city <- renderUI({
-      selectInput("City", "¨Ì·Ó¿¤¥«¤ÀªR:",
-                  choices = c('¥x¥_¥«','·s¥_¥«', '®ç¶é¥«', '¥x¤¤¥«',
-                              '¥x«n¥«', '°ª¶¯¥«',
-                              '°ò¶©¥«', '·s¦Ë¥«', '·s¦Ë¿¤', '­]®ß¿¤',
-                              '¹ü¤Æ¿¤', '«n§ë¿¤', '¶³ªL¿¤', '¹Å¸q¥«',
-                              '¹Å¸q¿¤', '«ÌªF¿¤', '©yÄõ¿¤', 'ªá½¬¿¤',
-                              '¥xªF¿¤', '¼ê´ò¿¤', 'ª÷ªù¿¤', '³s¦¿¿¤'
-                  ))
-    })
+	output$city <- renderUI({
+	  selectInput("City", "ä¾ç…§ç¸£å¸‚åˆ†æž:",
+				  choices = c('å°åŒ—å¸‚','æ–°åŒ—å¸‚', 'æ¡ƒåœ’å¸‚', 'å°ä¸­å¸‚',
+							  'å°å—å¸‚', 'é«˜é›„å¸‚',
+							  'åŸºéš†å¸‚', 'æ–°ç«¹å¸‚', 'æ–°ç«¹ç¸£', 'è‹—æ —ç¸£',
+							  'å½°åŒ–ç¸£', 'å—æŠ•ç¸£', 'é›²æž—ç¸£', 'å˜‰ç¾©å¸‚',
+							  'å˜‰ç¾©ç¸£', 'å±æ±ç¸£', 'å®œè˜­ç¸£', 'èŠ±è“®ç¸£',
+							  'å°æ±ç¸£', 'æ¾Žæ¹–ç¸£', 'é‡‘é–€ç¸£', 'é€£æ±Ÿç¸£'
+							  ))
+	})
 
-    output$linetype <- renderUI({
-      selectInput("Linetype", "¨Ì·Ó¾Ç¾úÃþ§O¤ÀªR:",
-                  choices = c('­¹«~À\¶¼Ãþ', '¦çµÛ¹¢«~Ãþ',	'®ÈÀ]¦í±JÃþ',
-                              '¥æ³qÃþ',	'¤å±Ð±d¼ÖÃþ',		'¦Ê³fÃþ', '¨ä¥LÃþ'))
-    })
+	output$linetype <- renderUI({
+	  selectInput("Linetype", "ä¾ç…§å­¸æ­·é¡žåˆ¥åˆ†æž:",
+				  choices = c('é£Ÿå“é¤é£²é¡ž', 'è¡£è‘—é£¾å“é¡ž',	'æ—…é¤¨ä½å®¿é¡ž',
+							  'äº¤é€šé¡ž',	'æ–‡æ•™åº·æ¨‚é¡ž',		'ç™¾è²¨é¡ž', 'å…¶ä»–é¡ž'))
+	})
 
-    output$educate <- renderUI({
-      selectInput("Educate", "¨Ì·Ó¾Ç¾ú¤ÀªR:",
-                  choices = c('³Õ¤h.', 'ºÓ¤h.', '¤j¾Ç.', '±M¬ì.',
-                              '°ª¤¤°ªÂ¾.', '¨ä¥L.'))
-    })
+	output$educate <- renderUI({
+	  selectInput("Educate", "ä¾ç…§å­¸æ­·åˆ†æž:",
+				  choices = c('åšå£«.', 'ç¢©å£«.', 'å¤§å­¸.', 'å°ˆç§‘.',
+							  'é«˜ä¸­é«˜è·.', 'å…¶ä»–.'))
+	})
 
-    output$type <- renderUI({
-      selectInput("Type", "¨Ì·Ó®ø¶O«ü¼Ð¤ÀªR:",
-                  choices = c('µ§¼Æ.', 'ª÷ÃB.·s¥x¹ô.'))
-
-
-
-    })
+	output$type <- renderUI({
+	  selectInput("Type", "ä¾ç…§æ¶ˆè²»æŒ‡æ¨™åˆ†æž:",
+				  choices = c('ç­†æ•¸.', 'é‡‘é¡.æ–°å°å¹£.'))
 
 
 
+	})
+	
+	
+	
 
 
-    output$myPlot <- renderPlot({
+	output$myPlot <- renderPlot({
 
-      cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
-      new_cp = toString(paste(input$City, cp, sep = ''))
-      seData  <- dtData[dtData$'¦a°Ï' == input$City, cp]
-      Et  <- ts(seData, start=1,end=61)
-      plot(seData,  col="blue", type="l",  main="§é½u¹Ï",
-           xlab=new_cp)
+	  cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
+	  new_cp = toString(paste(input$City, cp, sep = ''))
+	  seData  <- dtData[dtData$'åœ°å€' == input$City, cp]
+	  Et  <- ts(seData, start=1,end=61)
+	  plot(seData,  col="blue", type="l",  main="103/01                                                æŠ˜ç·šåœ–                                     108/01",
+	       xlab=new_cp)
 
+	  
 
-
-    })
-
-    output$fullPlot <- renderPlot({
-
-      cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
-      new_cp = toString(paste(input$City, cp, sep = ''))
-      boxplot(dtData[dtData$'¦a°Ï' == input$City, cp],data=dtData, main="ª½¤è¹Ï",
-              xlab=new_cp)
-
-    })
+	})
+	
+	output$fullPlot <- renderPlot({
+	  
+	  cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
+	  new_cp = toString(paste(input$City, cp, sep = ''))
+	  boxplot(dtData[dtData$'åœ°å€' == input$City, cp],data=dtData, main="ç›´æ–¹åœ–", 
+	          xlab=new_cp)
+	  
+	})
 
 
   })
 
 
-#View(dtData[dtData$VariableLabel == '¥x¥_¥«', ])
-#ggg = toString(paste('­¹«~À\¶¼Ãþ³Õ¤h.', 'µ§¼Æ.', sep = ''))
+#View(dtData[dtData$VariableLabel == 'å°åŒ—å¸‚', ])
+#ggg = toString(paste('é£Ÿå“é¤é£²é¡žåšå£«.', 'ç­†æ•¸.', sep = ''))
 
-#View(dtData[dtData$'¦a°Ï' == '·s¥_¥«', ggg] )
+#View(dtData[dtData$'åœ°å€' == 'æ–°åŒ—å¸‚', ggg] )
 #print(names(dtData))
 #View(dtData)
-#x1 <- dtData[dtData$'¦a°Ï' == '·s¥_¥«', ggg]
+#x1 <- dtData[dtData$'åœ°å€' == 'æ–°åŒ—å¸‚', ggg]
 
 #vioplot(x1,  names=c("4 cyl"), col="gold")
 
 
 # upload to server
 #library(rsconnect)
-
 #rsconnect::deployApp('E:/bank_data_time_series_analyze')
+

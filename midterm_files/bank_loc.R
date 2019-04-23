@@ -3,40 +3,42 @@ library(Rcpp)
 library(shiny)
 library(tidyr)
 library(dplyr)
+library(httr)
 library(readxl)
 library(stringr)
 library(ggplot2)
 library(TSstudio)
 library(data.table)
 
-WD <- getwd()
 
-if (!is.null(WD)) setwd('C:\\bank_data_time_series_analyze')
+setwd('D:/bank_data_time_series_analyze')
+
 
 data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
 data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
 
+
 if(!exists("foo", mode="function")) source("ggplot_waterfall.R")
 if(!exists("foo", mode="function")) source("stat_steamgraph.R")
-### change "107¦~12¤ë" to "107-12"
+### change "107å¹´12æœˆ" to "107-12"
 
 AD_convert <- function(date){
-  date <- gsub("¤ë","",gsub("¦~","/",date))
-  
-  
-  return(date)
+   date <- gsub("æœˆ","",gsub("å¹´","/",date))
+   
+   
+   return(date)
 }
 
 
 
 merged_data = rbind(data_mct, data_loc)
 
-Taipei <- merged_data[grep("¥x¥_¥«", merged_data$¦a°Ï), ]
-N_Taipei <- merged_data[grep("·s¥_¥«", merged_data$¦a°Ï), ]
-Taoyuan <- merged_data[grep("®ç¶é¥«", merged_data$¦a°Ï), ]
-Taichung <- merged_data[grep("¥x¤¤¥«", merged_data$¦a°Ï), ]
-Tainan <- merged_data[grep("¥x«n¥«", merged_data$¦a°Ï), ]
-Kaohsiung <- merged_data[grep("°ª¶¯¥«", merged_data$¦a°Ï), ]
+Taipei <- merged_data[grep("å°åŒ—å¸‚", merged_data$åœ°å€), ]
+N_Taipei <- merged_data[grep("æ–°åŒ—å¸‚", merged_data$åœ°å€), ]
+Taoyuan <- merged_data[grep("æ¡ƒåœ’å¸‚", merged_data$åœ°å€), ]
+Taichung <- merged_data[grep("å°ä¸­å¸‚", merged_data$åœ°å€), ]
+Tainan <- merged_data[grep("å°å—å¸‚", merged_data$åœ°å€), ]
+Kaohsiung <- merged_data[grep("é«˜é›„å¸‚", merged_data$åœ°å€), ]
 
 Taipei[,1] <- apply(Taipei[,1],1,FUN=AD_convert)
 N_Taipei[,1] <- apply(N_Taipei[,1],1,FUN=AD_convert)
@@ -66,37 +68,37 @@ dfData = data.frame(x = 1:61,
 
 
 p1 = ggplot_waterfall(
-  dtData = dfData,
-  
-  'x',
-  'y'
+   dtData = dfData,
+
+   'x',
+   'y'
 )
 
 
 p1 +
-  xlab('®É¶¡') +
-  ylab('µ§¼Æ')
+  xlab('æ™‚é–“') +
+  ylab('ç­†æ•¸')
 
 
 # creating some data
 
 dtData = data.frame(
-  Time = 1:61,
-  Signal =
-    c(
-      as.numeric(as.character(unlist(Taipei[1:61,4]))),
-      as.numeric(as.character(unlist(N_Taipei[1:61,4]))),
-      as.numeric(as.character(unlist(Taoyuan[1:61,4]))),
-      as.numeric(as.character(unlist(Taichung[1:61,4]))),
-      as.numeric(as.character(unlist(Tainan[1:61,4]))),
-      as.numeric(as.character(unlist(Kaohsiung[1:61,4])))
-      
-    ),
-  
-  VariableLabel = c(rep('»O¥_¥«', 61),
-                    rep('·s¥_¥«', 61), rep('®ç¶é¥«', 61),
-                    rep('¥x¤¤¥«', 61), rep('¥x«n¥«', 61),
-                    rep('°ª¶¯¥«', 61))
+   Time = 1:61,
+   Signal =
+      c(
+         as.numeric(as.character(unlist(Taipei[1:61,4]))),
+         as.numeric(as.character(unlist(N_Taipei[1:61,4]))),
+         as.numeric(as.character(unlist(Taoyuan[1:61,4]))),
+         as.numeric(as.character(unlist(Taichung[1:61,4]))),
+         as.numeric(as.character(unlist(Tainan[1:61,4]))),
+         as.numeric(as.character(unlist(Kaohsiung[1:61,4])))
+
+      ),
+
+   VariableLabel = c(rep('è‡ºåŒ—å¸‚', 61),
+                     rep('æ–°åŒ—å¸‚', 61), rep('æ¡ƒåœ’å¸‚', 61),
+                     rep('å°ä¸­å¸‚', 61), rep('å°å—å¸‚', 61),
+                     rep('é«˜é›„å¸‚', 61))
 )
 
 # base plot
@@ -106,11 +108,11 @@ p2 = ggplot(dtData, aes(x = Time, y = Signal,
 
 # Area plot
 p2 +
-  xlab('®É¶¡') +
-  ylab('¦U¿¤¥«')
+   xlab('æ™‚é–“') +
+   ylab('å„ç¸£å¸‚')
 
 
 
-#runApp("E:/bank_data_time_series_analyze")
-
+runApp("E:/bank_data_time_series_analyze")
 #runGitHub( "bank_data_time_series_analyze", "RUI-LONG") 
+
