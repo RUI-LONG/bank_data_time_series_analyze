@@ -9,7 +9,7 @@ library(ggplot2)
 library(TSstudio)
 library(data.table)
 
-#setwd('E:/bank_data_time_series_analyze')
+setwd('./bank_data_time_series_analyze')
 data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
 data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
 
