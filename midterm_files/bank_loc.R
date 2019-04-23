@@ -11,12 +11,23 @@ library(TSstudio)
 library(data.table)
 
 
-setwd('D:/bank_data_time_series_analyze')
+#setwd('D:/bank_data_time_series_analyze')
 
 
-data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
-data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
+#data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
+#data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
 
+dir.create("data")
+
+download.file(url = "https://drive.google.com/uc?authuser=0&id=1HgPO2ly-rbIE4CDCoebAyBoyOK3GRxfE&export=download", destfile = "./data/BANK_LOC_ALL_EL.xlsx", mode="wb")
+download.file(url = "https://drive.google.com/uc?authuser=0&id=1Pbfi7UkcadrXSLlrWHiUOdACCMuydptr&export=download", destfile = "./data/BANK_MCT_ALL_EL.xlsx", mode="wb")
+
+
+
+#setwd('E:/bank_data_time_series_analyze')
+data_loc <- read_excel(here("data", "BANK_LOC_ALL_EL.xlsx"))
+
+data_mct <- read_excel(here("data","BANK_MCT_ALL_EL.xlsx"))
 
 if(!exists("foo", mode="function")) source("ggplot_waterfall.R")
 if(!exists("foo", mode="function")) source("stat_steamgraph.R")
