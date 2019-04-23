@@ -7,11 +7,11 @@ shinyUI(
       uiOutput("linetype"),
       uiOutput("type"),
       uiOutput("educate")
-      
+
 
     ),
     mainPanel(plotOutput("myPlot"),plotOutput("fullPlot"))
-    
+
 
   )
 )
