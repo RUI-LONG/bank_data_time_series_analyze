@@ -11,8 +11,8 @@ library(data.table)
 library(vioplot)
 library(prettydoc)
 WD <- getwd()
-print(WD)
-if (!is.null(WD)) setwd('./bank_data_time_series_analyze')
+
+if (!is.null(WD)) setwd('C:\\bank_data_time_series_analyze')
 
 data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
 data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
