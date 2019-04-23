@@ -9,9 +9,9 @@ library(ggplot2)
 library(TSstudio)
 library(data.table)
 
-setwd('~/bank_data_time_series_analyze')
-data_loc <- read_excel("BANK_LOC_ALL_EL.xlsx")
-data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
+#setwd('./bank_data_time_series_analyze')
+data_loc <- read_excel("./BANK_LOC_ALL_EL.xlsx")
+data_mct <- read_excel("./BANK_MCT_ALL_EL.xlsx")
 
 if(!exists("foo", mode="function")) source("ggplot_waterfall.R")
 if(!exists("foo", mode="function")) source("stat_steamgraph.R")
