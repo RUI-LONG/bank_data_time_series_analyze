@@ -23,15 +23,15 @@ data_mct <- read_excel("BANK_MCT_ALL_EL.xlsx")
 
 AD_convert <- function(date){
   date <- gsub("月","",gsub("年","/",date))
-  
-  
+
+
   return(date)
 }
 
 Taipei_convert <- function(city){
   city <- gsub("台北市","Taipei",city)
-  
-  
+
+
   return(city)
 }
 
@@ -62,7 +62,7 @@ options(scipen = 999)
 
 shinyServer (
   function (input,output,session){
-    
+
     output$city <- renderUI({
       selectInput("City", "依照縣市分析:",
                   choices = c('台北市','新北市', '桃園市', '台中市',
@@ -73,54 +73,54 @@ shinyServer (
                               '台東縣', '澎湖縣', '金門縣', '連江縣'
                   ))
     })
-    
+
     output$linetype <- renderUI({
       selectInput("Linetype", "依照學歷類別分析:",
                   choices = c('食品餐飲類', '衣著飾品類',	'旅館住宿類',
                               '交通類',	'文教康樂類',		'百貨類', '其他類'))
     })
-    
+
     output$educate <- renderUI({
       selectInput("Educate", "依照學歷分析:",
                   choices = c('博士.', '碩士.', '大學.', '專科.',
                               '高中高職.', '其他.'))
     })
-    
+
     output$type <- renderUI({
       selectInput("Type", "依照消費指標分析:",
                   choices = c('筆數.', '金額.新台幣.'))
-      
-      
-      
+
+
+
     })
-    
-    
-    
-    
-    
+
+
+
+
+
     output$myPlot <- renderPlot({
-      
+
       cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
       new_cp = toString(paste(input$City, cp, sep = ''))
       seData  <- dtData[dtData$'地區' == input$City, cp]
       Et  <- ts(seData, start=1,end=61)
       plot(seData,  col="blue", type="l",  main="折線圖",
            xlab=new_cp)
-      
-      
-      
+
+
+
     })
-    
+
     output$fullPlot <- renderPlot({
-      
+
       cp = toString(paste(paste(input$Linetype, input$Educate, sep = ''), input$Type, sep = ''))
       new_cp = toString(paste(input$City, cp, sep = ''))
-      boxplot(dtData[dtData$'地區' == input$City, cp],data=dtData, main="直方圖", 
+      boxplot(dtData[dtData$'地區' == input$City, cp],data=dtData, main="直方圖",
               xlab=new_cp)
-      
+
     })
-    
-    
+
+
   })
 
 
