@@ -5,6 +5,6 @@ account: ruilong
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 879742
-bundleId: 2026318
+bundleId: 2033071
 url: https://ruilong.shinyapps.io/bank_data_time_series_analyze/
-when: 1555832113.4002
+when: 1556035490.30566

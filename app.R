@@ -13,8 +13,7 @@ library(prettydoc)
 library(here)
 
 
-
-getwd()
+#getwd()
 
 
 
@@ -74,6 +73,24 @@ names(Tainan) <- names(dtData)
 names(Kaohsiung) <- names(dtData)
 
 options(scipen = 999)
+
+shinyUI(
+  pageWithSidebar (
+    headerPanel ("統計分析期中報告 - 消費額度分析"),
+    
+    sidebarPanel (
+      uiOutput("city"),
+      uiOutput("linetype"),
+      uiOutput("type"),
+      uiOutput("educate")
+      
+      
+    ),
+    mainPanel(plotOutput("myPlot"),plotOutput("fullPlot"))
+    
+    
+  )
+)
 
 
 shinyServer (
@@ -153,5 +170,7 @@ shinyServer (
 
 # upload to server
 #library(rsconnect)
-rsconnect::deployApp('E:/bank_data_time_series_analyze')
+rsconnect::appDependencies()
+rsconnect::deployApp('E:/87')
+
 
