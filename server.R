@@ -1,16 +1,16 @@
 #library(xts)
-library(Rcpp)
+require (Rcpp)
 library(shiny)
 #library(tidyr)
 #library(dplyr)
-library(readxl)
-library(stringr)
-library(ggplot2)
-library(TSstudio)
-library(data.table)
+require (readxl)
+require (stringr)
+require (ggplot2)
+require (TSstudio)
+require (data.table)
 #library(vioplot)
-library(prettydoc)
-library(here)
+require (prettydoc)
+require (here)
 
 
 
@@ -153,5 +153,5 @@ shinyServer (
 
 # upload to server
 #library(rsconnect)
-rsconnect::deployApp('E:/bank_data_time_series_analyze')
+#rsconnect::deployApp('E:/bank_data_time_series_analyze')
 
