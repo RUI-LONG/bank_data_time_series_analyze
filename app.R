@@ -170,7 +170,7 @@ shinyServer (
 
 # upload to server
 #library(rsconnect)
-rsconnect::appDependencies()
-rsconnect::deployApp('E:/87')
+#rsconnect::appDependencies()
+#rsconnect::deployApp('E:/87')
 
 
