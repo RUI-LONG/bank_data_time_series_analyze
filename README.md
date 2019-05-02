@@ -9,8 +9,8 @@ https://data.gov.tw/dataset/38326
 
 # Demo
 Open your r 
-$ install.packages('shiny')
-$ library('shiny')
+$ install.packages('shiny') ;
+$ library('shiny') ;
 $ runGitHub("bank_data_time_series_analyze", "RUI-LONG")
 
 # Main files
